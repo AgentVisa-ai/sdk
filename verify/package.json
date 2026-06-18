@@ -1,0 +1,57 @@
+{
+  "name": "@agentvisa/verify",
+  "version": "0.1.0",
+  "description": "AgentVisa verifier — verify human-authorized AI agents in one call. Supports Web Bot Auth (RFC 9421) via AgentVisa-Assertion header.",
+  "keywords": [
+    "agentvisa",
+    "web-bot-auth",
+    "rfc9421",
+    "ai-agent",
+    "human-verification",
+    "express",
+    "middleware"
+  ],
+  "homepage": "https://agentvisa.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgentVisa-ai/sdk.git",
+    "directory": "verify"
+  },
+  "bugs": {
+    "url": "https://github.com/AgentVisa-ai/sdk/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "express": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -23,13 +23,19 @@ class AgentVisaResult:
     verified_at: Optional[datetime] = None
     expires_at: Optional[datetime] = None
 
-    # Pro plan metadata
-    human_name: Optional[str] = None
-    five_factor: Optional[Literal["y", "n"]] = None
+    # Domain verification — whether the widget's registered domain is verified
+    domain_verified: Optional[bool] = None
+
+    # === Pro-only confirmation flags (AVS-style — no raw PII ever returned) ===
+    # These are "y"/"n"/"null" signals — the API never returns name, email, or phone.
     age_over_18: Optional[Literal["y", "n", "null"]] = None
     age_over_21: Optional[Literal["y", "n", "null"]] = None
-    multiple_agents_authorized: Optional[Literal["y", "n"]] = None
-    verifications_today: Optional[int] = None
+    multiple_agents_authorized: Optional[Literal["y", "n", "null"]] = None
+
+    # Web Bot Auth (RFC 9421) binding — True when AgentVisa-Assertion was
+    # covered by a Signature-Input header on the incoming request.
+    # Structural check only; RFC 9421 crypto is verified by the WAF/CDN layer.
+    web_bot_auth_bound: Optional[bool] = None
 
     # Set when no token was present in the request at all
     skipped: bool = False
@@ -52,12 +58,11 @@ class AgentVisaResult:
             widget_id=data.get("widget_id", ""),
             verified_at=parse_dt(data.get("verified_at")),
             expires_at=parse_dt(data.get("expires_at")),
-            human_name=data.get("human_name"),
-            five_factor=data.get("five_factor"),
+            domain_verified=data.get("domain_verified"),
             age_over_18=data.get("age_over_18"),
             age_over_21=data.get("age_over_21"),
             multiple_agents_authorized=data.get("multiple_agents_authorized"),
-            verifications_today=data.get("verifications_today"),
+            web_bot_auth_bound=data.get("web_bot_auth_bound"),
         )
 
     @classmethod

@@ -66,18 +66,30 @@ Get your token at [agentvisa.ai](https://agentvisa.ai).
 ## Quick start — for sites (Node.js)
 
 ```ts
-import { callVerify } from '@agentvisa/verify';
+import { extractToken, verify } from '@agentvisa/verify';
 
-const result = await callVerify({
-  token: req.headers['x-agentvisa-token'],
+const { token } = extractToken(req.headers);
+if (!token) {
+  res.status(401).setHeader('X-AgentVisa-Required', 'wgt_abc123').send();
+  return;
+}
+
+const result = await verify(token, {
   widgetId: 'wgt_abc123',
   apiKey: process.env.AGENTVISA_API_KEY,
 });
 
 if (!result.valid) {
-  res.status(401).setHeader('X-AgentVisa-Required', 'wgt_abc123').send();
+  res.status(401).json({ error: result.reason });
   return;
 }
+```
+
+Or use the Express middleware for the same thing in one line:
+
+```ts
+import { agentVisa } from '@agentvisa/verify';
+app.use('/api', agentVisa({ widgetId: 'wgt_abc123', apiKey: process.env.AGENTVISA_API_KEY }));
 ```
 
 ## Quick start — for sites (Python / FastAPI)

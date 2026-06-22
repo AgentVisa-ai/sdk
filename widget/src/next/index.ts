@@ -29,7 +29,7 @@
  *   X-AgentVisa-Reason:   ok
  */
 
-import { AgentVisaConfig, VerifyResult, callVerify, resolveConfig } from "../core.js";
+import { AgentVisaConfig, VerifyResult, callVerify, resolveConfig, isLikelyAiAgent } from "../core.js";
 
 export type { AgentVisaConfig, VerifyResult };
 
@@ -68,6 +68,15 @@ export function withAgentVisa(
         return handler ? handler(req) : passthroughResponse(req);
       }
       if (resolved.onUnverified === "redirect") {
+        // Only redirect if this actually looks like an AI agent.
+        // Bot scrapers and human browsers get a plain 401 — we don't want
+        // them flooding agentvisa.ai/for-agents or triggering the growth loop
+        // for non-agent traffic.
+        const reqHeaders: Record<string, string | undefined> = {};
+        request.headers.forEach((v, k) => { reqHeaders[k] = v; });
+        if (!isLikelyAiAgent(reqHeaders)) {
+          return blockedResponse(resolved.widgetId, "no_token", resolved.redirectUrl);
+        }
         return redirectResponse(resolved.widgetId, "no_token", resolved.redirectUrl);
       }
       return blockedResponse(resolved.widgetId, "no_token", resolved.redirectUrl);

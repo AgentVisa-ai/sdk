@@ -1,6 +1,6 @@
 # agentvisa-fastapi
 
-FastAPI middleware for [AgentVisa](https://agentvisa.ai) — verify that incoming AI agents were authorized by a real, 5-factor biometric-verified human before granting access.
+FastAPI middleware for [AgentVisa](https://agentvisa.ai) — verify that incoming AI agents were authorized by a real, biometrically authenticated human before granting access.
 
 ## Install
 
@@ -27,7 +27,7 @@ app.add_middleware(AgentVisaMiddleware, config=config)
 # Protected route — agents without a valid AgentVisa token get 401
 @app.get("/api/orders")
 async def get_orders(av=Depends(require_agentvisa(config))):
-    return {"orders": [...], "verified_human": av.human_name}
+    return {"orders": [...], "plan": av.plan}
 
 # Unprotected route — check manually if you want soft enforcement
 @app.get("/api/public")
@@ -47,7 +47,7 @@ When an AI agent hits your site, AgentVisa requires a two-step handshake:
 3. **The agent retries** with `X-AgentVisa-Token: tmp_...` in the header.
 4. **This middleware calls `/v1/verify`** with your API key and returns the result.
 
-The human behind the agent completed 5-factor biometric verification (email, phone, cross-verification, Face ID / Touch ID, and a human assertion) when they got their AgentVisa.
+The human behind the agent completed 5-factor verification (email, phone, cross-verification, biometric authentication, and a human assertion) when they got their AgentVisa.
 
 ## Configuration
 
@@ -72,12 +72,11 @@ AgentVisaConfig(
 | `widget_id` | `str` | Your widget ID |
 | `verified_at` | `datetime \| None` | When the token was issued |
 | `expires_at` | `datetime \| None` | When the token expires |
-| `human_name` | `str \| None` | Pro plan only |
-| `five_factor` | `"y" \| "n" \| None` | Pro plan only |
-| `age_over_18` | `"y" \| "n" \| "null" \| None` | Pro plan only |
-| `age_over_21` | `"y" \| "n" \| "null" \| None` | Pro plan only |
+| `domain_verified` | `bool \| None` | Whether the widget's registered domain is verified |
+| `age_over_18` | `"y" \| "n" \| "null" \| None` | Pro plan only — AVS-style flag, no raw DOB |
+| `age_over_21` | `"y" \| "n" \| "null" \| None` | Pro plan only — AVS-style flag |
 | `multiple_agents_authorized` | `"y" \| "n" \| None` | Pro plan only |
-| `verifications_today` | `int \| None` | Pro plan only |
+| `web_bot_auth_bound` | `bool \| None` | Pro plan — token covered by RFC 9421 Signature-Input |
 | `skipped` | `bool` | True when no token was in the request |
 
 ## Using without the middleware

@@ -18,7 +18,7 @@
  *   req.agentVisa.reason    — failure reason (if not verified + passthrough mode)
  */
 
-import { AgentVisaConfig, VerifyResult, callVerify, resolveConfig } from "../core.js";
+import { AgentVisaConfig, VerifyResult, callVerify, resolveConfig, isLikelyAiAgent } from "../core.js";
 
 export type { AgentVisaConfig, VerifyResult };
 
@@ -63,6 +63,20 @@ export function agentVisa(config: AgentVisaConfig) {
         return next();
       }
       if (resolved.onUnverified === "redirect") {
+        // Only redirect if this actually looks like an AI agent.
+        // Bot scrapers and human browsers get a plain 401 — we don't want
+        // them flooding agentvisa.ai/for-agents or triggering the growth loop
+        // for non-agent traffic.
+        if (!isLikelyAiAgent(req.headers)) {
+          res.setHeader("X-AgentVisa-Required", resolved.widgetId);
+          res.status(401).json({
+            error: "agentvisa_required",
+            reason: "no_token",
+            widget_id: resolved.widgetId,
+            info_url: resolved.redirectUrl,
+          });
+          return;
+        }
         res.setHeader("X-AgentVisa-Required", resolved.widgetId);
         res.setHeader("Location", resolved.redirectUrl);
         res.status(302).json({

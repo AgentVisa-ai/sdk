@@ -38,9 +38,6 @@ export async function verifyToken(
       reason: "network_error",
       plan,
       widget_id: widgetId,
-      human_name: null,
-      email: null,
-      phone: null,
       verified_at: null,
       expires_at: null,
     };

@@ -29,10 +29,7 @@ export interface VerificationResult {
   // Domain verification (both plans)
   domain_verified?: boolean;
 
-  // === Pro-only fields ===
-  human_name?: string | null;
-  email?: string | null;
-  phone?: string | null;
+  // === Pro-only fields (confirmation flags only — no raw PII is ever returned) ===
   age_over_18?: "y" | "n" | "null";
   age_over_21?: "y" | "n" | "null";
   gov_id_pic_validation?: "y" | "n" | "null";

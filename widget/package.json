@@ -1,6 +1,6 @@
 {
   "name": "@agentvisa/widget",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "AgentVisa widget + server middleware for Express and Next.js",
   "keywords": [
     "agentvisa",
@@ -16,11 +16,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AgentVisa-ai/sdk.git",
-    "directory": "widget"
+    "url": "git+https://github.com/AgentVisa-ai/widget.git"
   },
   "bugs": {
-    "url": "https://github.com/AgentVisa-ai/sdk/issues"
+    "url": "https://github.com/AgentVisa-ai/widget/issues"
   },
   "homepage": "https://agentvisa.ai",
   "type": "module",

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentvisa-fastapi"
-version = "0.1.0"
+version = "0.1.1"
 description = "FastAPI middleware for AgentVisa AI agent verification"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -41,9 +41,9 @@ dev = [
 
 [project.urls]
 Homepage = "https://agentvisa.ai"
-Repository = "https://github.com/AgentVisa-ai/sdk/tree/main/middleware"
+Repository = "https://github.com/AgentVisa-ai/agentvisa-fastapi"
 Documentation = "https://agentvisa.ai/docs"
-"Bug Tracker" = "https://github.com/AgentVisa-ai/sdk/issues"
+"Bug Tracker" = "https://github.com/AgentVisa-ai/agentvisa-fastapi/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]

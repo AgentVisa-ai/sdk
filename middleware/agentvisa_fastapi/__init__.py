@@ -23,7 +23,7 @@ Quick start:
 
     @app.get("/protected")
     async def handler(av=Depends(require_agentvisa(config))):
-        return {"plan": av.plan, "human_name": av.human_name}
+        return {"plan": av.plan, "verified": av.valid}
 """
 
 from .config import AgentVisaConfig
@@ -39,4 +39,4 @@ __all__ = [
     "AgentVisaResult",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"

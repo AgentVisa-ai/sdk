@@ -53,7 +53,7 @@ def require_agentvisa(config: AgentVisaConfig):
         @app.get("/protected")
         async def handler(av: AgentVisaResult = Depends(require_agentvisa(config))):
             # Only reaches here if av.valid is True
-            return {"human_name": av.human_name}
+            return {"plan": av.plan, "verified": av.valid}
     """
     async def _dependency(
         result: AgentVisaResult = Depends(get_agentvisa(config)),

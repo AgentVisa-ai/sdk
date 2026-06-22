@@ -10,14 +10,12 @@
     "model-context-protocol"
   ],
   "homepage": "https://agentvisa.ai",
-  "funding": "https://agentvisa.ai",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AgentVisa-ai/sdk.git",
-    "directory": "mcp"
+    "url": "git+https://github.com/AgentVisa-ai/mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/AgentVisa-ai/sdk/issues"
+    "url": "https://github.com/AgentVisa-ai/mcp/issues"
   },
   "license": "MIT",
   "type": "module",

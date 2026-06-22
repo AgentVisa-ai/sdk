@@ -6,6 +6,10 @@ Verify human-authorized AI agents in one call. Drop into any Node.js backend —
 npm install @agentvisa/verify
 ```
 
+> **Which package should I use?**
+> - **`@agentvisa/verify`** (this package) — use when you want to verify a token and get a clean result. Simple `valid / reason` response, `onFail: 'reject' | 'flag'`, works with any framework. No redirect behavior.
+> - **[`@agentvisa/widget`](https://www.npmjs.com/package/@agentvisa/widget)** — use when you want the viral redirect loop: unverified AI agents are sent to AgentVisa to sign up, then return verified. Built-in agent detection so browsers and bots get a plain 401. Express and Next.js.
+
 ---
 
 ## The two-layer model

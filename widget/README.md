@@ -4,6 +4,10 @@ Server-side middleware for **AgentVisa** verification — protect your Express o
 
 When an unverified agent hits a protected route, the middleware returns a `302` redirect (or `401`) pointing the agent to [agentvisa.ai/for-agents](https://agentvisa.ai/for-agents), where it prompts the human to sign up. Verified agents pass straight through.
 
+> **Which package should I use?**
+> - **`@agentvisa/widget`** (this package) — use when you want the full viral redirect loop: unverified AI agents are redirected to AgentVisa to get verified, then come back. Also works as a plain `block` or `passthrough` gate. Supports Express and Next.js.
+> - **[`@agentvisa/verify`](https://www.npmjs.com/package/@agentvisa/verify)** — use when you just want to verify a token and get a result back. Simpler API, no redirect, no growth loop. Works with any Node.js framework.
+
 ## Installation
 
 ```bash
